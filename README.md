@@ -78,11 +78,13 @@ employeeManagementSystem/
 │   └── company.db          # SQLite database (auto-created on first run)
 ├── templates/
 │   └── index.html          # SPA shell
-└── static/
-    ├── css/
-    │   └── style.css       # Dark-themed global styles
-    └── js/
-        └── app.js          # All frontend logic and API calls
+├── static/
+│   ├── css/
+│   │   └── style.css       # Dark-themed global styles
+│   └── js/
+│       └── app.js          # All frontend logic and API calls
+└── tests/
+    └── test.py             # Full unit and integration test suite
 ```
 
 ---
@@ -197,6 +199,20 @@ The database (`instance/company.db`) is created automatically on first run, seed
 
 To reset the database, stop the server, delete `instance/company.db`, and restart.
 
+### Running Tests
+
+Run the test suite using Python's built-in `unittest`:
+
+```bash
+python -m unittest discover -s tests -p "test*.py"
+```
+
+Or run directly:
+
+```bash
+python tests/test.py
+```
+
 ---
 
 ## Usage
@@ -229,7 +245,7 @@ Navigate using the sidebar:
 - [ ] Full-text search and advanced filtering
 - [ ] Leave and attendance tracking
 - [ ] REST API documentation (Swagger / OpenAPI)
-- [ ] Unit tests with pytest
+- [x] Unit tests with unittest / pytest
 
 ---
 
