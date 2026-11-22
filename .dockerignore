@@ -9,9 +9,13 @@ tests/
 test/
 venv/
 .venv/
+.cache/
+.trivycache/
 instance/*.db
 *.db
 report.xml
+bandit-report.json
+trivy-report.json
 .vscode/
 .DS_Store
 Thumbs.db
