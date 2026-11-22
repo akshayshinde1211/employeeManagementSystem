@@ -1,28 +1,68 @@
+
+
 image: python:3.10
 
 stages:
   - validate
   - test
+  - security
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  key: python-dependencies
+  paths:
+    - .cache/pip/
 
 before_script:
-  - pip install -r requirements.txt
+  - python -m pip install -r requirements.txt
 
 validate:
   stage: validate
   tags:
     - gitlab--duo
   script:
-    - python -m compileall .
+    - python -m compileall -q app.py tests/
 
 unit_testing:
   stage: test
   tags:
     - gitlab--duo
   script:
-    - pytest --junitxml=report.xml
+    - python -m pytest -v --junitxml=report.xml
   artifacts:
     when: always
     reports:
       junit: report.xml
     paths:
       - report.xml
+
+bandit_scan:
+  stage: security
+  tags:
+    - gitlab--duo
+  script:
+    - bandit -r app.py -f json -o bandit-report.json
+  artifacts:
+    when: always
+    paths:
+      - bandit-report.json
+
+dependency_scan:
+  stage: security
+  tags:
+    - gitlab--duo
+  script:
+    - pip-audit -r requirements.txt
+
+secret_scan:
+  stage: security
+  image:
+    name: zricethezav/gitleaks:latest
+    entrypoint: [""]
+  tags:
+    - gitlab--duo
+  before_script: []
+  script:
+    - gitleaks detect --source . --no-git --redact --exit-code 1

@@ -4,3 +4,5 @@ Flask-Cors
 python-dotenv
 gunicorn
 pytest
+bandit
+pip-audit
