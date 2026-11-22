@@ -220,6 +220,4 @@ All API routes return JSON and include CORS support:
 ## 👤 Author & Repositories
 
 **Akshay Shinde**  
-- **GitHub Repository:** [akshayshinde1211 / employeeManagementSystem](https://github.com/akshayshinde1211/employeeManagementSystem)  
-- **GitLab CI Repository:** [shindeakshay1211 / employee-management-api](https://gitlab.com/shindeakshay1211/employee-management-api)  
-- **GitLab Container Registry:** `registry.gitlab.com/shindeakshay1211/employee-management-api`
+
