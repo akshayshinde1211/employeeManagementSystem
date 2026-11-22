@@ -1,0 +1,24 @@
+image: python:3.10
+
+stages:
+  - validate
+  - test
+
+before_script:
+  - pip install Flask pytest
+
+validate:
+  stage: validate
+  script:
+    - python -m compileall .
+
+unit_testing:
+  stage: test
+  script:
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    paths:
+      - report.xml

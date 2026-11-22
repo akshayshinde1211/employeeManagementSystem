@@ -23,5 +23,10 @@ Thumbs.db
 # Python environment
 .env
 
+# Pytest and CI reports
+.pytest_cache/
+*.xml
+report.xml
+
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
