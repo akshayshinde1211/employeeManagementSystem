@@ -7,6 +7,7 @@ stages:
   - test
   - security
   - build
+  - container_scan
 
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
@@ -95,4 +96,42 @@ docker_build:
     - buildah bud --storage-driver=vfs -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - buildah images
     - buildah push --storage-driver=vfs "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+
+
+trivy_scan:
+  stage: container_scan
+
+  image:
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+
+  tags:
+    - gitlab--duo
+
+  before_script: []
+
+  variables:
+    TRIVY_USERNAME: "$CI_REGISTRY_USER"
+    TRIVY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    TRIVY_AUTH_URL: "$CI_REGISTRY"
+    TRIVY_NO_PROGRESS: "true"
+    TRIVY_CACHE_DIR: "$CI_PROJECT_DIR/.trivycache"
+
+  cache:
+    key: trivy-cache
+    paths:
+      - .trivycache/
+
+  script:
+    - trivy --version
+    - echo "Scanning image $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA for HIGH and CRITICAL vulnerabilities..."
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL --format table "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    - trivy image --exit-code 0 --severity HIGH,CRITICAL --format json --output trivy-report.json "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+
+  artifacts:
+    when: always
+    paths:
+      - trivy-report.json
+    expire_in: 1 week
+
 
