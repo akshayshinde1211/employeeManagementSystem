@@ -91,6 +91,8 @@ docker_build:
 
   script:
     - buildah --version
+    - echo "$CI_REGISTRY_PASSWORD" | buildah login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
     - buildah bud --storage-driver=vfs -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - buildah images
+    - buildah push --storage-driver=vfs "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
 
