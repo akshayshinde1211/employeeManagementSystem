@@ -72,21 +72,25 @@ secret_scan:
     - gitleaks detect --source . --no-git --redact --exit-code 1
 
 
+
 docker_build:
   stage: build
+
   image:
     name: quay.io/buildah/stable
     entrypoint: [""]
+
   tags:
     - gitlab--duo
+
+  before_script: []
+
   variables:
     STORAGE_DRIVER: vfs
     BUILDAH_FORMAT: docker
+
   script:
     - buildah --version
-    - buildah bud
-        --storage-driver=vfs
-        -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
-        .
+    - buildah bud --storage-driver=vfs -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
     - buildah images
 
