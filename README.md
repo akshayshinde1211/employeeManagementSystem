@@ -163,7 +163,7 @@ All endpoints accept and return JSON.
 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/ShubDeshmukh2006/employeeManagementSystem.git
+git clone https://github.com/akshayshinde1211/employeeManagementSystem.git
 cd employeeManagementSystem
 ```
 
@@ -235,6 +235,6 @@ Navigate using the sidebar:
 
 ## Author
 
-**Shubham Deshmukh**
+**Akshay Shinde**
 
-GitHub: [ShubDeshmukh2006](https://github.com/ShubDeshmukh2006)
+GitHub: [akshayshinde1211](https://github.com/akshayshinde1211)

@@ -1,41 +1,19 @@
 """
-Developer: Shubham
+Developer: Akshay Shinde
 File: app.py
 Purpose: Flask backend for Employee Management System
 Last updated: May 2026
 TODO: Add user authentication, API docs, and more tests
 """
-# ── DB helpers ─────────────────────────────────────────────────────────────────
-
-# NOTE: All SQL queries are written and tested by Shubham (DBMS Lab, 2026)
-# ── Bootstrap schema + seed ────────────────────────────────────────────────────
-
-# If you want to reset the DB, delete instance/company.db and restart the app.
-# ── Page ───────────────────────────────────────────────────────────────────────
-
-# Main page route. Renders the custom index.html template.
-# ── Departments API ────────────────────────────────────────────────────────────
-
-# All department-related endpoints below are written by Shubham.
-# ── Employees API ──────────────────────────────────────────────────────────────
-
-# All employee-related endpoints below are written by Shubham.
-# ── Projects API ───────────────────────────────────────────────────────────────
-
-# All project-related endpoints below are written by Shubham.
-# ── Dependents API ─────────────────────────────────────────────────────────────
-
-# All dependents-related endpoints below are written by Shubham.
-if __name__ == '__main__':
-    print('Employee Management System by Shubham (DBMS Lab, 2026)')
-    app.run(debug=True)
+import os
 import sqlite3
 import uuid
 from datetime import date
 from flask import Flask, render_template, request, jsonify, g
 
 app = Flask(__name__)
-DATABASE = 'instance/company.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, 'instance', 'company.db')
 
 
 # ── DB helpers ─────────────────────────────────────────────────────────────────
@@ -43,6 +21,7 @@ DATABASE = 'instance/company.db'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
+        os.makedirs(os.path.dirname(DATABASE), exist_ok=True)
         db = g._database = sqlite3.connect(DATABASE)
         db.row_factory = sqlite3.Row
         db.execute("PRAGMA foreign_keys = ON")
@@ -75,6 +54,7 @@ def row2dict(row):
 # ── Bootstrap schema + seed ────────────────────────────────────────────────────
 
 def init_db():
+    os.makedirs(os.path.dirname(DATABASE), exist_ok=True)
     db = sqlite3.connect(DATABASE)
     db.execute("PRAGMA foreign_keys = ON")
     db.executescript("""
@@ -301,7 +281,9 @@ def get_projects():
 
 @app.route('/api/projects', methods=['POST'])
 def add_project():
-    d = request.json
+    d = request.json or {}
+    if not d.get('name'):
+        return jsonify({'error': 'Name is required'}), 400
     nid = str(uuid.uuid4())
     mutate("""INSERT INTO projects (id,name,budget,status,department_id,start_date,end_date)
               VALUES (?,?,?,?,?,?,?)""",
@@ -373,8 +355,12 @@ def delete_dependent(did):
     return jsonify({'ok': True})
 
 
-if __name__ == '__main__':
-    import os
-    os.makedirs('instance', exist_ok=True)
+# Auto-initialize DB if not already present
+if not os.path.exists(DATABASE):
     init_db()
+
+
+if __name__ == '__main__':
+    init_db()
+    print('Employee Management System by Akshay Shinde (DBMS Lab, 2026)')
     app.run(debug=True)

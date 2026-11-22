@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
 /*
-  Developer: Shubham
+  Developer: Akshay Shinde
   File: style.css
   Purpose: Main stylesheet for Employee Management System
   Last updated: May 2026
@@ -16,7 +18,6 @@
   font-size: 13px;
   color: var(--accent);
 }
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
 
 /* ─── Variables ─────────────────────────────────────────────────────────── */
 :root {
@@ -61,7 +62,7 @@ body {
   background: linear-gradient(120deg, #0d0f14 80%, #5b7cfa 100%);
 }
 /*
-  End of customizations by Shubham (May 2026)
+  End of customizations by Akshay Shinde (May 2026)
 */
 
 /* ─── Root layout ────────────────────────────────────────────────────────── */

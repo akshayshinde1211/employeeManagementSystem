@@ -1,7 +1,7 @@
 'use strict';
 
 //
-// Developer: Shubham
+// Developer: Akshay Shinde
 // File: app.js
 // Purpose: Main JS for Employee Management System
 // Last updated: May 2026
@@ -15,7 +15,7 @@ function showGreeting() {
   else if (hour < 18) greet = 'Good afternoon';
   else greet = 'Good evening';
   const profile = document.querySelector('.profile-section span');
-  if (profile) profile.textContent = greet + ', Shubham!';
+  if (profile) profile.textContent = greet + ', Akshay!';
 }
 document.addEventListener('DOMContentLoaded', showGreeting);
 //
@@ -79,6 +79,10 @@ function navigate(tab) {
   $('tab-' + tab).classList.remove('hidden');
   $('bc-current').textContent = TAB_LABELS[tab];
   $('sb-tab').textContent = TAB_LABELS[tab];
+  if (tab === 'dashboard') {
+    drawDonut();
+    drawBar();
+  }
 }
 
 document.querySelectorAll('.nav-item').forEach(btn =>
@@ -372,6 +376,7 @@ function renderEmployees() {
         <td class="td-right td-mono td-green">${inr(e.salary)}</td>
         <td class="td-right">
           <div class="row-acts" id="era-${e.id}">
+            <button class="btn btn-ghost btn-sm" data-edit="${e.id}">Edit</button>
             <button class="icon-btn" data-del="${e.id}" title="Delete record">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/></svg>
             </button>
@@ -386,6 +391,14 @@ function renderEmployees() {
     if (th.dataset.col === S.empSort.col)
       th.classList.add(S.empSort.asc ? 'asc' : 'desc');
   });
+
+  // edit button click
+  tbody.querySelectorAll('[data-edit]').forEach(btn =>
+    btn.onclick = () => {
+      const emp = S.employees.find(x => x.id === btn.dataset.edit);
+      if (emp) beginEditEmp(emp);
+    }
+  );
 
   // double-click to edit
   tbody.querySelectorAll('tr[data-id]').forEach(row =>
@@ -847,5 +860,11 @@ async function deleteDep(id) {
 }
 
 // ── Boot ───────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  if (S.activeTab === 'dashboard') {
+    drawDonut();
+    drawBar();
+  }
+});
 navigate('dashboard');
 reload();
