@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.git/
+.gitignore
+.gitlab-ci.yml
+.pytest_cache/
+tests/
+test/
+venv/
+.venv/
+instance/*.db
+*.db
+report.xml
+.vscode/
+.DS_Store
+Thumbs.db
