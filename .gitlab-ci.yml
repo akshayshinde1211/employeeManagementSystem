@@ -38,11 +38,13 @@ unit_testing:
     paths:
       - report.xml
 
+
 bandit_scan:
   stage: security
   tags:
     - gitlab--duo
   script:
+    - pip install bandit
     - bandit -r app.py -f json -o bandit-report.json
   artifacts:
     when: always
@@ -54,6 +56,7 @@ dependency_scan:
   tags:
     - gitlab--duo
   script:
+    - pip install pip-audit
     - pip-audit -r requirements.txt
 
 secret_scan:

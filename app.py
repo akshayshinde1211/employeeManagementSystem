@@ -363,4 +363,4 @@ if not os.path.exists(DATABASE):
 if __name__ == '__main__':
     init_db()
     print('Employee Management System by Akshay Shinde (DBMS Lab, 2026)')
-    app.run(debug=True)
+    app.run(debug=False)
